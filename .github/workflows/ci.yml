@@ -15,11 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Устанавливаем Python 3.9
+      # 2. Устанавливаем Python 3.12
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.9"
+          python-version: "3.12"
 
       # 3. Обновляем pip и ставим зависимости из файла
       - name: Install dependencies
