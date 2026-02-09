@@ -1,0 +1,36 @@
+name: Python Checks 
+
+on:
+  push:
+    branches: [ "main", "test-feature", "feature-fix-deps" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Копируем репозиторий на сервер
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем Python 3.9
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      # 3. Обновляем pip и ставим зависимости из файла
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Запускаем Ruff для проверки стиля (статический анализ)
+      - name: Run Ruff
+        run: ruff check --config=ruff.toml ./src/
+
+      # 5. Запускаем Pytest для проверки логики (динамический анализ)
+      - name: Run Pytest
+        run: pytest
